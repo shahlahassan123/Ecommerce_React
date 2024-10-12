@@ -53,9 +53,24 @@ const Home = () => {
     }
   };
 
+  //Handle adding of products to cart
   const handleAddToCart = (prod) => {
-    setCartItems([...cartItems, prod]);
+    const isExistingProduct = cartItems.find(item => item.id === prod.id) 
+    if(isExistingProduct){
+      setCartItems(cartItems.map(item => item.id === prod.id ? {...item, qty: item.qty + 1} : item))
+    }else{
+      setCartItems([...cartItems, {...prod, qty: 1}]);
+    }
+   
   };
+
+  const handleIncrementQty = prod =>{
+    setCartItems(cartItems.map(item => item.id === prod.id ? {...item, qty: item.qty + 1} : item))
+  }
+
+  const handleDecrementQty = prod =>{
+    setCartItems(cartItems.map(item => item.id === prod.id ? {...item, qty: item.qty - 1 } : item).filter(item=> item.qty >0))
+  }
 
   console.log("cc", cartItems);
 
@@ -102,6 +117,7 @@ const Home = () => {
             {showCategories.includes(category) && (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-4">
                 {products[category]?.map((product, index) => {
+                  const cartItem = cartItems.find(item=> item.id === product.id) //to display the qty as product doesnt have qty , only cartItems have
                   return (
                     <div key={index} className="flex flex-col  p-4 gap-[1rem]">
                       <p className="text-1xl font-bold overflow-hidden text-ellipsis h-20">
@@ -113,12 +129,24 @@ const Home = () => {
                         className="w-full h-[60%] object-contain"
                       />
                       <p className="text-1xl text-center">${product.price}</p>
+                      {cartItem ?
+                      <div className="flex w-[100%] justify-between">
+                        <button   onClick={() => handleDecrementQty(product)}
+                        className="border border-black p-2">-</button>
+                        <p className="text-1xl">{cartItem.qty}</p>
+                        <button  onClick={() => handleIncrementQty(product)}
+                        className="border border-black p-2">+</button>
+
+                      </div>
+                      :
                       <button
-                        onClick={() => handleAddToCart(product)}
-                        className="w-[100%] border border-black p-2"
-                      >
-                        ADD TO CART
-                      </button>
+                      onClick={() => handleAddToCart(product)}
+                      className="w-[100%] border border-black p-2"
+                    >
+                      ADD TO CART
+                    </button>
+                      
+                      }
                     </div>
                   );
                 })}

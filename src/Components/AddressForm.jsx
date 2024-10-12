@@ -35,7 +35,7 @@ export const AddressForm =forwardRef((props, ref) => {
 
 
   return (
-    <form className="flex flex-col w-[100%] gap-[1rem] text-center mb-[2rem]"
+    <form className="flex flex-col w-[100%] gap-[1rem] text-center m-[2rem]"
     onSubmit={handleSubmit(onSubmit)}>
       <input className="p-[1rem]"
         {...register("address", { required: "Address is Required!" })}

@@ -1,4 +1,3 @@
-// import React from "react";
 import { useRef } from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,76 +6,91 @@ import { AddressForm } from "./AddressForm";
 
 const Cart = () => {
   const { cartItems, setCartItems } = useContext(CreateContext);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const addressFormRef = useRef()
+  const addressFormRef = useRef();
 
   console.log("cc", cartItems);
 
-  const subTotal = cartItems.reduce((s, item) => s + item.price, 0);
+  const subTotal = cartItems.reduce((s, item) => s + (item.price* item.qty), 0);
 
-  const discount =0
+  const discount = 0;
 
   const total = subTotal - discount;
 
-  const handleCheckOut =() =>{
-    if(addressFormRef.current){
-      addressFormRef.current.submitForm()
+  const handleCheckOut = () => {
+    if (addressFormRef.current) {
+      addressFormRef.current.submitForm();
     }
-    navigate("/order-confirmation")
-  }
+    navigate("/order-confirmation",{
+      state : {subTotal, discount, total} // Passing as states 
+    });
+  };
 
   return (
-    <div className="w-screen h-screen max-w-screen-xl flex flex-col items-center relative  p-[2rem] ">
+    <div className="w-screen h-screen  flex flex-col items-center relative  p-[2rem] ">
       {cartItems.length === 0 ? (
         <p className="font-bold text-3xl">No Products in the Cart !!! </p>
       ) : (
-        <div className="flex flex-col items-end  mb-[4rem]">
-          <div className="flex flex-col gap-8">
-            <div className="grid grid-cols-3 gap-12 items-center text-2xl font-bold">
-              <p>IMAGE</p>
-              <p>PRODUCT</p>
-              {/* <p>QTY</p> */}
-              <p>PRICE</p>
-            </div>
+        <div className="overflow-x-auto m-[2rem] w-full ">
+          <table className="table-auto w-full text-center">
+            <thead>
+              <tr className="text-2xl font-bold w-[100%]">
+                <th className="px-4 py-2">IMAGE</th>
+                <th className="px-4 py-2">PRODUCT</th>
+                <th className="px-4 py-2">QTY</th>
+                <th className="px-4 py-2">PRICE</th>
+              </tr>
+            </thead>
+            <tbody>
             {cartItems.map((item, index) => {
               return (
-                <div
+                <tr
                   key={index}
-                  className="grid grid-cols-3 gap-4 items-center"
+                  className=""
                 >
+                  <td className="px-4 py-2">
                   <img
                     src={item.image}
                     alt={item.title}
                     className="w-20 h-20 object-contain"
                   />
-                  <p>{item.title}</p>
-                  {/* <p>1</p> */}
-                  <p>$ {item.price.toFixed(2)}</p>
-                </div>
+                  </td>
+                  
+                  <td className="px-4 py-2">{item.title}</td>
+                  <td className="px-4 py-2">{item.qty}</td>
+                  <td className="px-4 py-2">$ {item.price.toFixed(2) * item.qty}</td>
+                </tr>
               );
             })}
-            <div className="grid grid-cols-3 gap-4 items-center ">
-              <p className="font-bold ">SubTotal : </p>
-              <p></p>
-              <p className="font-bold">$ {subTotal.toFixed(2)}</p>
-            </div>
-            <div className="grid grid-cols-3 gap-4 items-center ">
-              <p className="font-bold ">Discount : </p>
-              <p></p>
-              <p className="font-bold">$ {discount.toFixed(2)}</p>
-            </div>
-            <div className="grid grid-cols-3 gap-4 items-center ">
-              <p className="font-bold ">Total : </p>
-              <p></p>
-              <p className="font-bold">$ {total.toFixed(2)}</p>
-            </div>
-          </div>
+            <tr className=" ">
+              <td></td>
+              <td></td>
+              <td className="px-4 py-2 font-bold ">SubTotal : </td>
+              <td className="px-4 py-2 font-bold">$ {subTotal.toFixed(2)}</td>
+            </tr>
+            <tr className=" ">            
+              <td></td>
+              <td></td>
+              <td className="px-4 py-2 font-bold ">Discount : </td>
+              <td className="px-4 py-2 font-bold">$ {discount.toFixed(2)}</td>
+            </tr>
+            <tr className=" ">  
+              <td></td>
+              <td></td>
+              <td className="px-4 py-2 font-bold ">Total : </td>
+              <td className="px-4 py-2 font-bold">$ {total.toFixed(2)}</td>
+            </tr>
+
+            </tbody>
+
+            
+          </table>
         </div>
       )}
       <AddressForm ref={addressFormRef} />
       <div className="w-screen p-4 flex items-end justify-center font-bold bg-black text-white ">
-        <button onClick={()=>handleCheckOut()}>PROCCED TO CHECKOUT</button>
+        <button onClick={() => handleCheckOut()}>PROCCED TO CHECKOUT</button>
       </div>
     </div>
   );
@@ -84,6 +98,4 @@ const Cart = () => {
 
 export default Cart;
 
-
-
-
+import React from "react";
