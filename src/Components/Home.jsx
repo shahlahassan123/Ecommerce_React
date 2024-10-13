@@ -46,7 +46,7 @@ const Home = () => {
           [categoryName]: response.data,
         }));
 
-        console.log(showCategories);
+        // console.log(showCategories);
       } catch (err) {
         console.log("Error getting products", err);
       }
@@ -72,7 +72,7 @@ const Home = () => {
     setCartItems(cartItems.map(item => item.id === prod.id ? {...item, qty: item.qty - 1 } : item).filter(item=> item.qty >0))
   }
 
-  console.log("cc", cartItems);
+  // console.log("cc", cartItems);
 
   //If no catgories
   if (!categories.length > 0) {

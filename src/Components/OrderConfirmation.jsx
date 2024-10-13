@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { CreateContext } from "../App";
 
 const OrderConfirmation = () => {
-  const { cartItems, addressData } = useContext(CreateContext);
+  const { cartItems, customerData } = useContext(CreateContext);
 
   const location = useLocation();
   const { subTotal, discount, total } = location.state || {
@@ -52,14 +52,16 @@ const OrderConfirmation = () => {
             <p>$ {total.toFixed(2)}</p>
           </div>
         </div>
-        {addressData && (
-          <div className="text-center m-[1rem] text-xl">
-            <h2 className="font-bold">Shipping Address:</h2>
-            <p>{addressData.address}</p>
+        {customerData && (
+          <div className="text-center m-[1rem] text-1xl">
+            <h2 className="font-bold">Customer Details:</h2>
+            <p><b>Full Name :</b> {customerData.fullName}</p>
+            <p><b>Email :</b>  {customerData.email}</p>
+            <p><b>Address :</b>{customerData.address}</p>
             <p>
-              {addressData.city}, {addressData.state}, {addressData.zip}
+              {customerData.city}, {customerData.state}, {customerData.zip}
             </p>
-            <p>{addressData.country}</p>
+            <p>{customerData.country}</p>
           </div>
         )}
       </div>

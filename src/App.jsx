@@ -8,11 +8,11 @@ export const CreateContext = createContext();
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
-  const [addressData, setAddressData] = useState(null)
+  const [customerData, setCustomerData] = useState(null)
 
   return (
     <Router>
-      <CreateContext.Provider value={{ cartItems, setCartItems , addressData, setAddressData}}>
+      <CreateContext.Provider value={{ cartItems, setCartItems , customerData, setCustomerData}}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />}   />

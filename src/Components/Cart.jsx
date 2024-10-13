@@ -2,15 +2,15 @@ import { useRef } from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { CreateContext } from "./../App";
-import { AddressForm } from "./AddressForm";
+import { CustomerForm } from "./CustomerForm";
 
 const Cart = () => {
   const { cartItems, setCartItems } = useContext(CreateContext);
   const navigate = useNavigate();
 
-  const addressFormRef = useRef();
+  const customerFormRef = useRef();
 
-  console.log("cc", cartItems);
+  // console.log("cc", cartItems);
 
   const subTotal = cartItems.reduce((s, item) => s + (item.price* item.qty), 0);
 
@@ -19,8 +19,8 @@ const Cart = () => {
   const total = subTotal - discount;
 
   const handleCheckOut = () => {
-    if (addressFormRef.current) {
-      addressFormRef.current.submitForm();
+    if (customerFormRef.current) {
+      customerFormRef.current.submitForm();
     }
     navigate("/order-confirmation",{
       state : {subTotal, discount, total} // Passing as states 
@@ -88,7 +88,7 @@ const Cart = () => {
           </table>
         </div>
       )}
-      <AddressForm ref={addressFormRef} />
+      <CustomerForm ref={customerFormRef} />
       <div className="w-screen p-4 flex items-end justify-center font-bold bg-black text-white ">
         <button onClick={() => handleCheckOut()}>PROCCED TO CHECKOUT</button>
       </div>

@@ -3,9 +3,9 @@ import { forwardRef, useImperativeHandle, useContext } from "react";
 import { CreateContext } from "../App";
 import { useNavigate } from "react-router-dom";
 
-export const AddressForm =forwardRef((props, ref) => {
+export const CustomerForm =forwardRef((props, ref) => {
 
- const {setAddressData} = useContext(CreateContext)
+ const {setCustomerData} = useContext(CreateContext)
  const navigate = useNavigate()
 
 
@@ -15,6 +15,8 @@ export const AddressForm =forwardRef((props, ref) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
+      fullName : "",
+      email : "",
       address: "",
       country: "",
       city: "",
@@ -24,8 +26,8 @@ export const AddressForm =forwardRef((props, ref) => {
   });
 
   const onSubmit = (data) => {
-    console.log("Form Data:", data);
-    setAddressData(data);  
+    // console.log("Form Data:", data);
+    setCustomerData(data);  
   }
 
   useImperativeHandle(ref, ()=>({
@@ -37,6 +39,14 @@ export const AddressForm =forwardRef((props, ref) => {
   return (
     <form className="flex flex-col w-[100%] gap-[1rem] text-center m-[2rem]"
     onSubmit={handleSubmit(onSubmit)}>
+      <h1 className="text-center text-5xl font-bold">Personal Information</h1>
+      <input className="p-[1rem]" 
+      {...register("fullName", {required : "Full Name is Required!"})}
+      placeholder="Full Name"></input>
+      <input className="p-[1rem]" type='email'
+      {...register("email", {required : "Email is Required!"})}
+      placeholder="Email"></input>
+
       <input className="p-[1rem]"
         {...register("address", { required: "Address is Required!" })}
         placeholder="Address"
