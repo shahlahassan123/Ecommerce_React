@@ -83,14 +83,23 @@ const Home = () => {
     );
   }
 
+  const totalCartItems = cartItems.reduce((numberOfItems,item)=> numberOfItems + item.qty,0)
+
   return (
     <div className="flex flex-col mx-auto px-4 max-w-screen-xl">
       <div className="flex justify-between  m-[2rem] p-[1rem]">
         <h2 className=" w-screen text-6xl flex  mb-[2rem]   ">
           Shop Online
         </h2>
-        <button  className="text-2xl"
-        onClick={() => navigate("/cart")}><FaShoppingCart/></button>
+        <button  className="relative text-2xl "
+        onClick={() => navigate("/cart")}>
+          <FaShoppingCart/>
+          {totalCartItems >0 &&
+          <span style={{bottom : "3rem", left : "1rem" , color: "green", fontSize: "1rem" }} className="absolute ">
+          {totalCartItems}
+          </span>}
+          </button>
+          
       </div>
 
       {/* SHOWING LIST OF CATEGORIES */}
@@ -160,3 +169,4 @@ const Home = () => {
 };
 
 export default Home;
+
